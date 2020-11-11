@@ -12,7 +12,7 @@ edit this
 # app:
 <img src="awesome.JPG">
 
-# How it secure the APP
+# Security
 
 * there was big issue in the app it return the src of the image contains the google appid or api key
 * to solve this when I got the image I download it on my own server then render it with my own src not include appid
