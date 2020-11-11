@@ -32,6 +32,8 @@ import sys
 from io import StringIO
 from io import BytesIO
 import base64
+## importing socket module
+import socket
 
 
 engine = create_engine('sqlite:///address_info.db')
@@ -50,9 +52,20 @@ def getSheet(address):
     def filter_address(address):
         address_query = str(address.lower())
         return address_query
+
+    ## getting the hostname by socket.gethostname() method
+    hostname = socket.gethostname()
+    ## getting the IP address using socket.gethostbyname() method
+    ip_address = socket.gethostbyname(hostname)
+    ## printing the hostname and ip_address
+    print("Hostname: " + hostname)
+    print("IP Address: " + ip_address)
+    # secure API like google restrict IP addres
+    if ip_address != '127.0.1.1':
+        return "Sorry We Not Accept Request For this APi Key From that API addres was :%s"  %ip_address
     URL = "https://maps.googleapis.com/maps/api/geocode/json"
     location = filter_address(address)
-    appkey = ""
+    appkey = "You Google API Key"
     PARAMS = {'address':location,'key':appkey}
     r = requests.get(url = URL, params = PARAMS)
     data = r.json()
