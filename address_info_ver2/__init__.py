@@ -78,12 +78,17 @@ def getSheet(address):
         street_size = '&size=456x456'
         street_view_url = street_view + street_location + street_size + '&key=' + appkey
 
-        street_image = "<img src='" + street_view_url +"'><br />"
         geocode_latitude = "<p>Latitude: "+ new_result.latitude +"</p><br />"
         geocode_longitude = "<p>Longitude: "+ new_result.longitude +"</p><br /><br />"
         geocode_formatted_address = "<h2>formatted_address:</h2>"
         geocode_formatted_address += "<p>"+formatted_address +"</p><br /><br />"
         geocode_place_id = "<p>place_id: "+place_id +"</p><br />"
+        response = requests.get(street_view_url)
+        image_path = "static/google_streets/sample_image.png"
+        file = open(image_path, "wb")
+        file.write(response.content)
+        file.close()
+        street_image = "<img src='/" + image_path +"'><br />"
         return "%s %s %s %s %s" %(geocode_latitude, geocode_longitude,geocode_formatted_address,geocode_place_id,street_image)
     except IndexError:
         new_request = Request(user_input=address, request_status=data['status'], user_id=1)
@@ -104,4 +109,5 @@ if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8080, threaded=False)
+
 
